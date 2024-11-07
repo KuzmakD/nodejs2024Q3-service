@@ -1,26 +1,62 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
+import { DatabaseService } from 'src/database/database.service';
+import { ArtistEntity } from '../entities/artist.entity';
 
 @Injectable()
 export class ArtistService {
-  getAll() {
-    return 'This EP return all users!';
+  constructor(private db: DatabaseService) {}
+
+  async getAll() {
+    return this.db.artists;
   }
 
-  getById(id: number) {
-    return `This EP returns artist with id: ${id}`;
+  async getById(id: string) {
+    const artistById = this.db.artists.find((artist) => artist.id === id);
+
+    if (!artistById) {
+      throw new NotFoundException(`Artist with id ${id} not exist`);
+    }
+
+    return artistById;
   }
 
-  create(createArtistDto: CreateArtistDto) {
-    return 'This EP creates a new artist!';
+  async create(createArtistDto: CreateArtistDto): Promise<ArtistEntity> {
+    const newArtist = new ArtistEntity(createArtistDto);
+    this.db.artists.push(newArtist);
+
+    return newArtist;
   }
 
-  update(id: number, updateArtistDto: UpdateArtistDto) {
-    return `This EP updates artist with id: ${id}`;
+  async update(id: string, updateArtistDto: UpdateArtistDto) {
+    const artistById = await this.getById(id);
+
+    console.log(`This EP updates artist with id: ${id}`, artistById);
+    artistById.name = updateArtistDto.name;
+    artistById.grammy = updateArtistDto.grammy;
+    return artistById;
   }
 
-  remove(id: number) {
-    return `This EP removes artist with id: ${id}`;
+  async remove(id: string) {
+    this.getById(id);
+
+    this.db.tracks.forEach((track) => {
+      if (track.artistId === id) {
+        track.artistId = null;
+      }
+    });
+
+    this.db.albums.forEach((album) => {
+      if (album.artistId === id) {
+        album.artistId = null;
+      }
+    });
+
+    this.db.favorites.artists = this.db.favorites.artists.filter(
+      (storeId) => storeId !== id,
+    );
+
+    this.db.artists = this.db.artists.filter((artist) => artist.id !== id);
   }
 }

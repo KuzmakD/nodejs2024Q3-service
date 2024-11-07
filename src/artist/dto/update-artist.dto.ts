@@ -1,11 +1,11 @@
-import { IsNotEmpty, IsOptional, IsString, IsBoolean } from 'class-validator';
+import { IsOptional, IsString, IsBoolean } from 'class-validator';
 
 export class UpdateArtistDto {
-  @IsOptional()
   @IsString({ message: 'The name must be a string.' })
+  @IsOptional()
   name: string;
 
-  @IsOptional()
   @IsBoolean({ message: 'The Grammy can be true or false.' })
+  @IsOptional()
   grammy: boolean;
 }
