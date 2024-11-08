@@ -8,7 +8,7 @@ export class TrackService {
     return 'This EP return all tracks!';
   }
 
-  getById(id: number): string {
+  getById(id: string) {
     return `This EP return track with id: ${id}`;
   }
 
@@ -16,11 +16,11 @@ export class TrackService {
     return 'This EP creates a ne track';
   }
 
-  update(id: number, updateTrackto: UpdateTrackDto) {
+  update(id: string, updateTrackto: UpdateTrackDto) {
     return `This EP update track with id: ${id}`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This EP remove track with id: ${id}`;
   }
 }

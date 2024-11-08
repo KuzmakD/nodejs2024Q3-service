@@ -1,4 +1,4 @@
-import { IsInt, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsInt, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class UpdateAlbumDto {
   @IsOptional()
