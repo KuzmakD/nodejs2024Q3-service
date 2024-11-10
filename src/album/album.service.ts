@@ -5,6 +5,7 @@ import { DatabaseService } from 'src/database/database.service';
 import { AlbumEntity } from 'src/entities/album.entity';
 import { DbEntities } from 'src/database/database.interface';
 import { ITrack } from 'src/track/dto/track.interface';
+import { IAlbum } from './dto/album.interface';
 
 @Injectable()
 export class AlbumService {
@@ -29,6 +30,7 @@ export class AlbumService {
       createAlbumDto.artistId,
       DbEntities.ARTISTS,
     );
+
     if (!existArtist && createAlbumDto.artistId) {
       throw new NotFoundException(
         `Artist with id ${createAlbumDto.artistId} not exist`,
@@ -36,6 +38,7 @@ export class AlbumService {
     }
     const newAlbum = new AlbumEntity(createAlbumDto);
     this.db.albums.push(newAlbum);
+
     return newAlbum;
   }
 
@@ -53,6 +56,7 @@ export class AlbumService {
     albumById.artistId = updateAlbumDto.artistId;
     albumById.name = updateAlbumDto.name;
     albumById.year = updateAlbumDto.year;
+
     return albumById;
   }
 
@@ -64,7 +68,7 @@ export class AlbumService {
       }
     });
     this.db.favorites.albums = this.db.favorites.albums.filter(
-      (albumsId: string) => albumsId !== id,
+      (album: IAlbum) => album.id !== id,
     );
     this.db.albums = this.db.albums.filter((album) => album.id !== id);
   }

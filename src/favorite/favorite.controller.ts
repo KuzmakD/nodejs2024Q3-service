@@ -2,6 +2,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseUUIDPipe,
   Post,
@@ -15,11 +17,6 @@ export class FavoriteController {
   @Get()
   getAll() {
     return this.favoriteService.getAll();
-  }
-
-  @Get(':id')
-  getById(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    return this.favoriteService.getById(id);
   }
 
   @Post('track/:id')
@@ -40,6 +37,7 @@ export class FavoriteController {
   }
 
   @Delete('track/:id')
+  @HttpCode(HttpStatus.NO_CONTENT) // 204
   removeTrackFromFavs(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ) {
@@ -47,6 +45,7 @@ export class FavoriteController {
   }
 
   @Delete('album/:id')
+  @HttpCode(HttpStatus.NO_CONTENT) // 204
   removeAlbumFromFavs(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ) {
@@ -54,6 +53,7 @@ export class FavoriteController {
   }
 
   @Delete('artist/:id')
+  @HttpCode(HttpStatus.NO_CONTENT) // 204
   removeArtistFromFavs(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ) {

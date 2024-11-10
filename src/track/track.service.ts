@@ -4,6 +4,7 @@ import { UpdateTrackDto } from './dto/update-track.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { TrackEntity } from 'src/entities/track.entity';
 import { DbEntities } from 'src/database/database.interface';
+import { ITrack } from './dto/track.interface';
 
 @Injectable()
 export class TrackService {
@@ -83,7 +84,7 @@ export class TrackService {
     const trackById = this.getById(id);
 
     this.db.favorites.tracks = this.db.favorites.tracks.filter(
-      (trackId) => trackId !== trackById.id,
+      (track: ITrack) => track.id !== trackById.id,
     );
 
     this.db.tracks = this.db.tracks.filter((track) => track.id !== id);

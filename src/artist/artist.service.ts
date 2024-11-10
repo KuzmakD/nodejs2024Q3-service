@@ -53,7 +53,7 @@ export class ArtistService {
     });
 
     this.db.favorites.artists = this.db.favorites.artists.filter(
-      (storeId) => storeId !== id,
+      (artist) => artist.id !== id,
     );
 
     this.db.artists = this.db.artists.filter((artist) => artist.id !== id);
