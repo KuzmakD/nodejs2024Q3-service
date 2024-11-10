@@ -12,7 +12,12 @@ export class DatabaseService {
   albums: Array<IAlbum> = [];
   artists: Array<IArtist> = [];
   tracks: Array<ITrack> = [];
-  favorites: IFavorites;
+
+  favorites: IFavorites = {
+    artists: [],
+    albums: [],
+    tracks: [],
+  };
 
   checkEntity(entityId: string, dbEntityType: DbEntities): boolean {
     const dbEntity: TDbEntities = this[dbEntityType];

@@ -8,11 +8,11 @@ import { ArtistEntity } from '../entities/artist.entity';
 export class ArtistService {
   constructor(private db: DatabaseService) {}
 
-  async getAll() {
+  getAll() {
     return this.db.artists;
   }
 
-  async getById(id: string) {
+  getById(id: string) {
     const artistById = this.db.artists.find((artist) => artist.id === id);
 
     if (!artistById) {
@@ -22,22 +22,22 @@ export class ArtistService {
     return artistById;
   }
 
-  async create(createArtistDto: CreateArtistDto): Promise<ArtistEntity> {
+  create(createArtistDto: CreateArtistDto) {
     const newArtist = new ArtistEntity(createArtistDto);
     this.db.artists.push(newArtist);
 
     return newArtist;
   }
 
-  async update(id: string, updateArtistDto: UpdateArtistDto) {
-    const artistById = await this.getById(id);
+  update(id: string, updateArtistDto: UpdateArtistDto) {
+    const artistById = this.getById(id);
     artistById.name = updateArtistDto.name;
     artistById.grammy = updateArtistDto.grammy;
 
     return artistById;
   }
 
-  async remove(id: string) {
+  remove(id: string) {
     this.getById(id);
 
     this.db.tracks.forEach((track) => {

@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseUUIDPipe,
   Post,
@@ -40,6 +42,7 @@ export class TrackController {
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT) // 204
   remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     return this.trackService.remove(id);
   }

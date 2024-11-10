@@ -13,11 +13,11 @@ import { UserEntity } from 'src/entities/user.entity';
 export class UserService {
   constructor(private db: DatabaseService) {}
 
-  async getAll() {
+  getAll() {
     return this.db.users;
   }
 
-  async getById(id: string) {
+  getById(id: string) {
     const userById = this.db.users.find((user) => user.id === id);
 
     if (!userById) {
@@ -27,7 +27,7 @@ export class UserService {
     return userById;
   }
 
-  async create(createUserDto: CreateUserDto) {
+  create(createUserDto: CreateUserDto) {
     const existUser = this.db.users.find(
       (user) => user.login === createUserDto.login,
     );
@@ -43,8 +43,8 @@ export class UserService {
     return newUser;
   }
 
-  async update(id: string, updatePasswordDto: UpdatePasswordDto) {
-    const userById = await this.getById(id);
+  update(id: string, updatePasswordDto: UpdatePasswordDto) {
+    const userById = this.getById(id);
     if (userById.password !== updatePasswordDto.oldPassword) {
       throw new HttpException(
         'Old password does not match existing password',
@@ -58,8 +58,8 @@ export class UserService {
     return userById;
   }
 
-  async remove(id: string) {
-    await this.getById(id);
+  remove(id: string) {
+    this.getById(id);
 
     this.db.users = this.db.users.filter((user) => user.id !== id);
   }

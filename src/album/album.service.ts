@@ -10,11 +10,11 @@ import { ITrack } from 'src/track/dto/track.interface';
 export class AlbumService {
   constructor(private db: DatabaseService) {}
 
-  async getAll() {
+  getAll() {
     return this.db.albums;
   }
 
-  async getById(id: string) {
+  getById(id: string) {
     const albumById = this.db.albums.find((album) => album.id === id);
 
     if (!albumById) {
@@ -24,7 +24,7 @@ export class AlbumService {
     return albumById;
   }
 
-  async create(createAlbumDto: CreateAlbumDto) {
+  create(createAlbumDto: CreateAlbumDto) {
     const existArtist = this.db.checkEntity(
       createAlbumDto.artistId,
       DbEntities.ARTISTS,
@@ -39,8 +39,8 @@ export class AlbumService {
     return newAlbum;
   }
 
-  async update(id: string, updateAlbumDto: UpdateAlbumDto) {
-    const albumById = await this.getById(id);
+  update(id: string, updateAlbumDto: UpdateAlbumDto) {
+    const albumById = this.getById(id);
     const existArtist = this.db.checkEntity(
       updateAlbumDto.artistId,
       DbEntities.ARTISTS,
@@ -56,7 +56,7 @@ export class AlbumService {
     return albumById;
   }
 
-  async remove(id: string) {
+  remove(id: string) {
     this.getById(id);
     this.db.tracks.forEach((track: ITrack) => {
       if (track.albumId === id) {
