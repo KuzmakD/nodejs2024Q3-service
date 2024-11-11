@@ -662,8 +662,6 @@ paths:
           description: Deleted successfully
         400:
           description: Bad. trackId is invalid (not uuid)
-        401:
-          $ref: '#/components/responses/UnauthorizedError'
         404:
           description: Track was not found.
   /favs/album/{id}:
