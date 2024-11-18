@@ -6,19 +6,22 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { DatabaseService } from 'src/database/database.service';
-import { UserEntity } from 'src/entities/user.entity';
+import { Repository } from 'typeorm';
+import { User, UserResponse } from 'src/entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { validate } from 'class-validator';
 
 @Injectable()
 export class UserService {
-  constructor(private db: DatabaseService) {}
+  @InjectRepository(User)
+  declare repository: Repository<User>;
 
-  getAll() {
-    return this.db.users;
+  async getAll() {
+    return this.repository.find();
   }
 
-  getById(id: string) {
-    const userById = this.db.users.find((user) => user.id === id);
+  async getById(id: string) {
+    const userById = await this.repository.findOneBy({ id });
 
     if (!userById) {
       throw new NotFoundException(`User with id ${id} not exist`);
@@ -27,24 +30,21 @@ export class UserService {
     return userById;
   }
 
-  create(createUserDto: CreateUserDto) {
-    const existUser = this.db.users.find(
-      (user) => user.login === createUserDto.login,
-    );
-    if (existUser) {
-      throw new HttpException(
-        `User with login ${createUserDto.login} already exist!`,
-        HttpStatus.CONFLICT,
-      );
-    }
-    const newUser = new UserEntity(createUserDto);
-    this.db.users.push(newUser);
+  async create(createUserDto: CreateUserDto) {
+    await this.repository.findOne({
+      where: { login: createUserDto.login },
+    });
 
-    return newUser;
+    const newUser = new User(createUserDto as User);
+    validate(newUser, { forbidUnknownValues: true });
+
+    await this.repository.save(newUser);
+
+    return new UserResponse(newUser);
   }
 
-  update(id: string, updatePasswordDto: UpdatePasswordDto) {
-    const userById = this.getById(id);
+  async update(id: string, updatePasswordDto: UpdatePasswordDto) {
+    const userById = await this.getById(id);
     if (userById.password !== updatePasswordDto.oldPassword) {
       throw new HttpException(
         'Old password does not match existing password',
@@ -53,14 +53,17 @@ export class UserService {
     }
     userById.password = updatePasswordDto.newPassword;
     userById.version = userById.version + 1;
-    userById.updatedAt = Date.now();
+    userById.updatedAt = new Date();
 
-    return userById;
+    await this.repository.save(userById);
+
+    return new UserResponse(userById);
   }
 
-  remove(id: string) {
-    this.getById(id);
+  async remove(id: string) {
+    const removedUser = await this.getById(id);
 
-    this.db.users = this.db.users.filter((user) => user.id !== id);
+    await this.repository.remove(removedUser);
+    return removedUser;
   }
 }

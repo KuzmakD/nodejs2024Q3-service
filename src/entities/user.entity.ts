@@ -49,20 +49,36 @@ export class User implements IUser {
   @IsNotEmpty()
   @ApiProperty({ format: 'timestamp' })
   @Transform((params) => params.value.getTime(), { toPlainOnly: true })
-  createdAt: number;
+  createdAt: Date;
 
   @CreateDateColumn()
   @IsDate()
   @IsNotEmpty()
   @ApiProperty({ format: 'timestamp' })
   @Transform((params) => params.value.getTime(), { toPlainOnly: true })
-  updatedAt: number;
+  updatedAt: Date;
 
   constructor(user: Partial<User>) {
     this.login = user?.login;
     this.password = user?.password;
     this.version = 1;
-    this.createdAt = Date.now();
-    this.updatedAt = Date.now();
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
+  }
+}
+
+export class UserResponse {
+  id: string;
+  login: string;
+  version: number;
+  createdAt: number;
+  updatedAt: number;
+
+  constructor(user: User) {
+    this.id = user.id;
+    this.login = user.login;
+    this.version = user.version;
+    this.createdAt = +user.createdAt;
+    this.updatedAt = +user.updatedAt;
   }
 }

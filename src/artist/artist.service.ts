@@ -7,7 +7,6 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ArtistService {
-  // constructor(private db: DatabaseService) {}
   @InjectRepository(Artist)
   declare repository: Repository<Artist>;
 
@@ -33,16 +32,18 @@ export class ArtistService {
   }
 
   async update(id: string, updateArtistDto: UpdateArtistDto) {
-    const artistById = await this.getById(id);
-    artistById.name = updateArtistDto.name;
-    artistById.grammy = updateArtistDto.grammy;
+    await this.getById(id);
 
-    await this.repository.save(artistById);
-
-    return artistById;
+    return this.repository
+      .preload({ id, ...updateArtistDto })
+      .then((artist) => {
+        return artist ? this.repository.save(artist) : artist;
+      });
   }
 
-  remove(id: string): Promise<boolean> {
+  async remove(id: string): Promise<boolean> {
+    await this.getById(id);
+
     return this.repository.findOneBy({ id }).then(async (artist) => {
       return artist ? !!(await this.repository.remove(artist)) : false;
     });
