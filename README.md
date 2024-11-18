@@ -4,30 +4,17 @@
 
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+- Docker desktop - [Download page](https://www.docker.com/products/docker-desktop/)
 
-## Downloading
+## Installation process
 
-## How to install Home Library Service
-
-- You have to checkout in **[develop](https://github.com/KuzmakD/nodejs2024Q3-service.git/tree/develop)** branch.
-
-You have to clone this repository:
-
-```
-git clone https://github.com/KuzmakD/nodejs2024Q3-service.git
-```
-
-## Installing NPM modules
-
-Install all npm modules
-
-```
-npm install
-```
+1.Clone the repository:
+`git clone https://github.com/KuzmakD/nodejs2024Q3-service.git`
+2.Install all npm modules `npm install`
+3.Create the .env file using [example](.env.example);
+4.Log in and launch the Docker Desktop application.
 
 ## Running application
-
-Before running the application create `.env` file use `.env.example`
 
 ```
 npm run start
