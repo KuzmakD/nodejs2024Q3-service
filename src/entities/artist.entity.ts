@@ -1,14 +1,28 @@
-import { v4 as uuidV4 } from 'uuid';
 import { IArtist } from '../artist/dto/artist.interface';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { IsBoolean, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class ArtistEntity implements IArtist {
+@Entity({ name: 'artists' })
+export class Artist implements IArtist {
+  @PrimaryGeneratedColumn('uuid')
+  @IsUUID(4)
+  @ApiProperty({ format: 'uuid' })
   id: string;
+
+  @Column()
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
   name: string;
+
+  @Column()
+  @IsBoolean()
+  @ApiProperty()
   grammy: boolean;
 
-  constructor({ name, grammy }: Partial<ArtistEntity>) {
-    this.id = uuidV4();
-    this.name = name;
-    this.grammy = grammy;
+  constructor(artist: Partial<Artist>) {
+    this.name = artist?.name;
+    this.grammy = artist?.grammy;
   }
 }

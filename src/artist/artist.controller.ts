@@ -13,28 +13,30 @@ import {
 import { ArtistService } from './artist.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('artist')
+@ApiTags('Artists')
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
   @Get()
-  getAll() {
+  async getAll() {
     return this.artistService.getAll();
   }
 
   @Get(':id')
-  getById(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async getById(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     return this.artistService.getById(id);
   }
 
   @Post()
-  create(@Body() createArtistDto: CreateArtistDto) {
+  async create(@Body() createArtistDto: CreateArtistDto) {
     return this.artistService.create(createArtistDto);
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateArtistDto: UpdateArtistDto,
   ) {
@@ -43,7 +45,7 @@ export class ArtistController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT) // 204
-  remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     return this.artistService.remove(id);
   }
 }
