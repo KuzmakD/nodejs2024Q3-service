@@ -13,28 +13,30 @@ import {
 import { TrackService } from './track.service';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('track')
+@ApiTags('Tracks')
 export class TrackController {
   constructor(private readonly trackService: TrackService) {}
 
   @Get()
-  getAll() {
+  async getAll() {
     return this.trackService.getAll();
   }
 
   @Get(':id')
-  getById(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async getById(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     return this.trackService.getById(id);
   }
 
   @Post()
-  create(@Body() createTrackDto: CreateTrackDto) {
+  async create(@Body() createTrackDto: CreateTrackDto) {
     return this.trackService.create(createTrackDto);
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateTrackDto: UpdateTrackDto,
   ) {
@@ -43,7 +45,7 @@ export class TrackController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT) // 204
-  remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     return this.trackService.remove(id);
   }
 }

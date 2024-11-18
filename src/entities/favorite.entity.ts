@@ -1,15 +1,15 @@
-import { AlbumEntity } from './album.entity';
-import { ArtistEntity } from './artist.entity';
-import { TrackEntity } from './track.entity';
+import { Album } from './album.entity';
+import { Artist } from './artist.entity';
+import { Track } from './track.entity';
 
 export class Favorite {
-  artists: ArtistEntity[];
-  albums: AlbumEntity[];
-  tracks: TrackEntity[];
+  artists: Artist[];
+  albums: Album[];
+  tracks: Track[];
 
   constructor() {
-    this.artists = new Array<ArtistEntity>();
-    this.albums = new Array<AlbumEntity>();
-    this.tracks = new Array<TrackEntity>();
+    this.artists = new Array<Artist>();
+    this.albums = new Array<Album>();
+    this.tracks = new Array<Track>();
   }
 }
