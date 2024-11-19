@@ -12,7 +12,7 @@ export class CreateUsers1731915576170 implements MigrationInterface {
         "version" integer NOT NULL, 
         "createdAt" TIMESTAMP NOT NULL DEFAULT now(), 
         "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), 
-        PRIMARY KEY ("id"))`,
+        CONSTRAINT "PK_users" PRIMARY KEY ("id"))`,
     );
   }
 

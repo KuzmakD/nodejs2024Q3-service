@@ -18,6 +18,10 @@ export class AlbumService {
     return this.repository.find();
   }
 
+  async findOne(id: string): Promise<Album | null> {
+    return this.repository.findOneBy({ id });
+  }
+
   async getById(id: string) {
     const albumById = await this.repository.findOneBy({ id });
 
@@ -46,10 +50,7 @@ export class AlbumService {
   async remove(id: string) {
     await this.getById(id);
 
-    // return removedAlbum
-    //   ? !!(await this.repository.remove(removedAlbum))
-    //   : false;
-    return this.getById(id).then(async (album) => {
+    return this.findOne(id).then(async (album) => {
       this.deleteEvent.next(id);
       return album ? !!(await this.repository.remove(album)) : false;
     });

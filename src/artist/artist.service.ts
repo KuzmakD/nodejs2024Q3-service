@@ -4,14 +4,22 @@ import { UpdateArtistDto } from './dto/update-artist.dto';
 import { Artist } from '../entities/artist.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class ArtistService {
   @InjectRepository(Artist)
   declare repository: Repository<Artist>;
 
+  protected deleteEvent = new Subject<Artist['id']>();
+  public delete$ = this.deleteEvent.asObservable();
+
   async getAll() {
     return this.repository.find();
+  }
+
+  async findOne(id: string): Promise<Artist | null> {
+    return this.repository.findOneBy({ id });
   }
 
   async getById(id: string) {
@@ -45,6 +53,7 @@ export class ArtistService {
     await this.getById(id);
 
     return this.repository.findOneBy({ id }).then(async (artist) => {
+      this.deleteEvent.next(id);
       return artist ? !!(await this.repository.remove(artist)) : false;
     });
   }

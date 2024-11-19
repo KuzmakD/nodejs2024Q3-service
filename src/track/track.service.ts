@@ -19,6 +19,10 @@ export class TrackService {
     return this.repository.find();
   }
 
+  async findOne(id: string): Promise<Track | null> {
+    return this.repository.findOneBy({ id });
+  }
+
   async getById(id: string): Promise<Track | null> {
     const trackById = await this.repository.findOneBy({ id });
     if (!trackById) {
@@ -49,7 +53,7 @@ export class TrackService {
   async remove(id: string) {
     await this.getById(id);
 
-    return this.getById(id).then(async (track) => {
+    return this.findOne(id).then(async (track) => {
       this.deleteEvent.next(id);
       return track ? !!(await this.repository.remove(track)) : false;
     });
