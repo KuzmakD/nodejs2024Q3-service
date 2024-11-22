@@ -34,9 +34,9 @@ _If you haven't encountered any issues with Docker, you can skip this step_
 
 ## Checks for Docker
 
-- The images take up 496MB (application 257MB, PostgreSQL 239MB) [(screenshot)](c:\Users\astonuser\Pictures\Screenshots\Screenshot 2024-11-22 210354.png) `docker image ls`
-- Application image on [hub.docker](https://hub.docker.com/repository/docker/kuzmak/nodejs2024q3-service/general)
-- You can initiate the scanning `npm run scan` _(if your image name is nodejs2024q3-service-app)_ or `npm run scan:name -- YOUR_IMAGE_NAME`
+- The images take up 496MB (application 257MB, PostgreSQL 239MB)) `docker image ls`
+- Application image on [hub.docker](https://hub.docker.com/repositories/kuzmak)
+- You can initiate the scanning `npm run docker:scan`
 
 ---
 

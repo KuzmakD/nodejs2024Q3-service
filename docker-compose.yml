@@ -1,13 +1,7 @@
 services:
   postgres-db:
     container_name: postgres-db
-    build:
-      context: ./src/database/
-      dockerfile: Dockerfile
-    environment:
-      POSTGRES_DB: 'rss_node_service'
-      POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: '7postgres7'
+    image: kuzmak/nodejs2024q3-service-postgres-db:v02
     env_file:
       - .docker.env
     ports:
@@ -20,16 +14,14 @@ services:
 
   app:
     container_name: 'restapi-app'
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: kuzmak/nodejs2024q3-service-app:v01
+    env_file:
+      - .docker.env
     ports:
       - '$PORT:$PORT'
     command: npm run start:docker:dev
     volumes:
       - .:/app
-    env_file:
-      - .docker.env
     depends_on:
       - postgres-db
     restart: on-failure
