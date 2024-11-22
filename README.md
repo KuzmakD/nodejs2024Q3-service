@@ -8,32 +8,41 @@
 
 ## Installation process
 
-1.Clone the repository:
-`git clone https://github.com/KuzmakD/nodejs2024Q3-service.git`
-2.Install all npm modules `npm install`
-3.Create the .env file using [example](.env.example);
-4.Log in and launch the Docker Desktop application.
+1. Clone the repository:
+   `git clone https://github.com/KuzmakD/nodejs2024Q3-service.git/tree/part2`
+2. Install all npm modules `npm install`
+3. Create the .env file using [example](.env.example);
 
-## Running application
+## How to RUN using Docker
 
-```
-npm run start
-```
+### Running with Docker
 
-After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
-For more information about OpenAPI/Swagger please visit https://swagger.io/.
+1. Install and run [Docker](https://docs.docker.com/engine/install/)
+2. Log in and launch the Docker Desktop application.
+3. Execute command `docker-compose up --build` or commands `docker-compose build` and `docker-compose up` sequentially.
 
-To run the application with automatic restart use:
+\_Note: Restarting Nest when code changes take about 1 minute
 
-```
-npm run start:dev
-```
+### Running without Docker
+
+_If you haven't encountered any issues with Docker, you can skip this step_
+
+1. Install [Postgres](https://www.postgresql.org/download/)
+2. Create a database with name `rss_node_service` (use PostgreSQL 16).
+3. Apply migrations `npm run migration:update`
+4. Start the server `npm start`
+
+## Checks for Docker
+
+- The images take up 496MB (application 257MB, PostgreSQL 239MB) [(screenshot)](c:\Users\astonuser\Pictures\Screenshots\Screenshot 2024-11-22 210354.png) `docker image ls`
+- Application image on [hub.docker](https://hub.docker.com/repository/docker/kuzmak/nodejs2024q3-service/general)
+- You can initiate the scanning `npm run scan` _(if your image name is nodejs2024q3-service-app)_ or `npm run scan:name -- YOUR_IMAGE_NAME`
+
+---
 
 ## Testing
 
 After application running open new terminal and enter:
-
 To run all tests without authorization
 
 ```

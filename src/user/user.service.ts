@@ -7,7 +7,7 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { Repository } from 'typeorm';
-import { User, UserResponse } from 'src/entities/user.entity';
+import { User, UserResponse } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { validate } from 'class-validator';
 

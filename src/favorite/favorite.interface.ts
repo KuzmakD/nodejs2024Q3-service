@@ -1,6 +1,6 @@
-import { IAlbum } from 'src/album/dto/album.interface';
-import { IArtist } from 'src/artist/dto/artist.interface';
-import { ITrack } from 'src/track/dto/track.interface';
+import { IAlbum } from '../album/dto/album.interface';
+import { IArtist } from '../artist/dto/artist.interface';
+import { ITrack } from '../track/dto/track.interface';
 
 export interface IFavorites {
   artists: IArtist[]; // favorite artists ids

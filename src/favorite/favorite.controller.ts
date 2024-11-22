@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { FavoriteService } from './favorite.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Favorite } from 'src/entities/favorite.entity';
-import { User } from 'src/entities/user.entity';
+import { Favorite } from '../entities/favorite.entity';
+import { User } from '../entities/user.entity';
 
 @Controller('favs')
 @ApiTags('Favorites')
