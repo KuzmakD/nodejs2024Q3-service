@@ -13,12 +13,16 @@ import {
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('album')
+@ApiTags('Albums')
+@ApiBearerAuth()
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Get all albums' })
   async getAll() {
     return this.albumService.getAll();
   }
@@ -29,6 +33,7 @@ export class AlbumController {
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create album' })
   async create(@Body() createAlbumDto: CreateAlbumDto) {
     return this.albumService.create(createAlbumDto);
   }

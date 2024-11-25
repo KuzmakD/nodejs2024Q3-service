@@ -13,14 +13,16 @@ import {
 import { ArtistService } from './artist.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('artist')
 @ApiTags('Artists')
+@ApiBearerAuth()
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Get all artists' })
   async getAll() {
     return this.artistService.getAll();
   }
@@ -31,6 +33,7 @@ export class ArtistController {
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create artist' })
   async create(@Body() createArtistDto: CreateArtistDto) {
     return this.artistService.create(createArtistDto);
   }

@@ -13,10 +13,11 @@ import {
 import { TrackService } from './track.service';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('track')
 @ApiTags('Tracks')
+@ApiBearerAuth()
 export class TrackController {
   constructor(private readonly trackService: TrackService) {}
 
@@ -31,6 +32,7 @@ export class TrackController {
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create track' })
   async create(@Body() createTrackDto: CreateTrackDto) {
     return this.trackService.create(createTrackDto);
   }

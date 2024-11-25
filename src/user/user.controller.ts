@@ -15,10 +15,11 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
 @ApiTags('Users')
+@ApiBearerAuth()
 @UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -34,6 +35,7 @@ export class UserController {
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create user' })
   async create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }

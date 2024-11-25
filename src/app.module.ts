@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { TrackModule } from './track/track.module';
 import { FavoriteModule } from './favorite/favorite.module';
@@ -7,6 +7,8 @@ import { AlbumModule } from './album/album.module';
 import { TypeOrmOptionsModule } from './database/typeORM.module';
 import { LoggingModule } from './logging/logging.module';
 import { ConfigModule } from '@nestjs/config';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -20,8 +22,14 @@ import { ConfigModule } from '@nestjs/config';
     AlbumModule,
     TypeOrmOptionsModule,
     LoggingModule,
+    AuthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
+  ],
 })
 export class AppModule {}

@@ -30,6 +30,12 @@ export class UserService {
     return userById;
   }
 
+  async getByLogin(login: User['login']) {
+    const userByLogin = await this.repository.findOne({ where: { login } });
+
+    return userByLogin;
+  }
+
   async create(createUserDto: CreateUserDto) {
     await this.repository.findOne({
       where: { login: createUserDto.login },

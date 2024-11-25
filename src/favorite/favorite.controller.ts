@@ -9,12 +9,18 @@ import {
   Post,
 } from '@nestjs/common';
 import { FavoriteService } from './favorite.service';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Favorite } from '../entities/favorite.entity';
 import { User } from '../entities/user.entity';
 
 @Controller('favs')
 @ApiTags('Favorites')
+@ApiBearerAuth()
 export class FavoriteController {
   protected blank_user: User['id'] = 'd323327d-cea8-4f42-8730-5221222361de';
   constructor(private readonly favoriteService: FavoriteService) {}
