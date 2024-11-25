@@ -6,9 +6,13 @@ import { ArtistModule } from './artist/artist.module';
 import { AlbumModule } from './album/album.module';
 import { TypeOrmOptionsModule } from './database/typeORM.module';
 import { LoggingModule } from './logging/logging.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     UserModule,
     TrackModule,
     FavoriteModule,
