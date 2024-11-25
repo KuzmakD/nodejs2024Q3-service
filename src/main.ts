@@ -4,7 +4,6 @@ import { config } from 'dotenv';
 import { ValidationPipe } from '@nestjs/common';
 import { setupSwagger } from './swagger/swagger-config';
 import { LoggingService } from './logging/logging.service';
-import { LoggingInterceptor } from './logging/logging.interceptor';
 
 config();
 
@@ -17,9 +16,9 @@ async function bootstrap() {
 
   await setupSwagger(app);
 
-  const logger = app.get(LoggingService);
+  const logger = await app.resolve(LoggingService);
+  app.useLogger(logger);
 
-  app.useGlobalInterceptors(new LoggingInterceptor(logger));
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(PORT, () =>
     console.log(`Server started at http://localhost:${PORT}`),
