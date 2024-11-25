@@ -7,6 +7,7 @@ services:
     ports:
       - '$POSTGRES_PORT:$POSTGRES_PORT'
     volumes:
+      - postgres_logs:/var/lib/postgresql
       - dbdata:/var/lib/postgresql/data
     restart: always
     networks:
@@ -14,7 +15,10 @@ services:
 
   app:
     container_name: 'restapi-app'
-    image: kuzmak/nodejs2024q3-service-app:v01
+    # image: kuzmak/nodejs2024q3-service-app:v01
+    build:
+      context: .
+      dockerfile: Dockerfile
     env_file:
       - .docker.env
     ports:

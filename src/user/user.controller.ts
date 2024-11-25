@@ -15,7 +15,14 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { User } from '../entities/user.entity';
 
 @Controller('user')
 @ApiTags('Users')
@@ -41,6 +48,15 @@ export class UserController {
   }
 
   @Put(':id')
+  @ApiParam({
+    name: 'id',
+    format: 'uuid',
+    description: 'The ID of the user',
+  })
+  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 400, description: 'ID has invalid format' })
+  @ApiResponse({ status: 403, description: 'Old password is wrong' })
+  @ApiResponse({ status: 404, description: 'User not found' })
   async update(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updatePasswordDto: UpdatePasswordDto,

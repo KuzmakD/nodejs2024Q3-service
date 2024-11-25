@@ -8,13 +8,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { Public } from './auth.decorator';
-import {
-  ApiBody,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-  ApiUnauthorizedResponse,
-} from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
@@ -23,7 +17,6 @@ import { LoginUserDto, RefreshTokenDto, TokenDto } from './dto/auth.dto';
 @Public()
 @Controller('auth')
 @ApiTags('Auth')
-@ApiUnauthorizedResponse()
 export class AuthController {
   constructor(
     protected authService: AuthService,

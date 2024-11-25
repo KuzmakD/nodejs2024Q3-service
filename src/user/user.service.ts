@@ -1,6 +1,7 @@
 import {
-  HttpException,
-  HttpStatus,
+  Delete,
+  ForbiddenException,
+  HttpCode,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -10,6 +11,7 @@ import { Repository } from 'typeorm';
 import { User, UserResponse } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { validate } from 'class-validator';
+import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 
 @Injectable()
 export class UserService {
@@ -51,11 +53,9 @@ export class UserService {
 
   async update(id: string, updatePasswordDto: UpdatePasswordDto) {
     const userById = await this.getById(id);
-    if (userById.password !== updatePasswordDto.oldPassword) {
-      throw new HttpException(
-        'Old password does not match existing password',
-        HttpStatus.FORBIDDEN,
-      );
+
+    if (!(await userById.checkPassword(updatePasswordDto.oldPassword))) {
+      throw new ForbiddenException();
     }
     userById.password = updatePasswordDto.newPassword;
     userById.version = userById.version + 1;
@@ -66,6 +66,17 @@ export class UserService {
     return new UserResponse(userById);
   }
 
+  @Delete(':id')
+  @HttpCode(204)
+  @ApiOperation({ summary: 'Delete user' })
+  @ApiParam({
+    name: 'id',
+    format: 'uuid',
+    description: 'The ID of the user',
+  })
+  @ApiResponse({ status: 204, description: 'Successful' })
+  @ApiResponse({ status: 400, description: 'ID has invalid format' })
+  @ApiResponse({ status: 404, description: 'User not found' })
   async remove(id: string) {
     const removedUser = await this.getById(id);
 

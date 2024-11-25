@@ -19,7 +19,12 @@ async function bootstrap() {
   const logger = await app.resolve(LoggingService);
   app.useLogger(logger);
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      strictGroups: true,
+    }),
+  );
   await app.listen(PORT, () =>
     console.log(`Server started at http://localhost:${PORT}`),
   );
