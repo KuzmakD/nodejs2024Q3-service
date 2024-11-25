@@ -5,6 +5,7 @@ import { FavoriteModule } from './favorite/favorite.module';
 import { ArtistModule } from './artist/artist.module';
 import { AlbumModule } from './album/album.module';
 import { TypeOrmOptionsModule } from './database/typeORM.module';
+import { LoggingModule } from './logging/logging.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { TypeOrmOptionsModule } from './database/typeORM.module';
     ArtistModule,
     AlbumModule,
     TypeOrmOptionsModule,
+    LoggingModule,
   ],
   controllers: [],
   providers: [],
