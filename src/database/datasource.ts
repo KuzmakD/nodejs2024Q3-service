@@ -19,7 +19,7 @@ const options: DataSourceOptions = {
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   entities: [User, Track, Album, Artist, Favorite],
-  logging: false,
+  logging: true,
   migrations: ['dist/database/migrations/*.js'],
 };
 

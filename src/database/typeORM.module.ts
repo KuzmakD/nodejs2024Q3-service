@@ -24,7 +24,7 @@ const HOST =
       password: env.POSTGRES_PASSWORD,
       entities: [User, Track, Album, Artist, Favorite],
       synchronize: false,
-      logging: false,
+      logging: true,
     }),
   ],
 })

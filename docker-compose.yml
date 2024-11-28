@@ -1,13 +1,16 @@
 services:
   postgres-db:
     container_name: postgres-db
-    image: kuzmak/nodejs2024q3-service-postgres-db:v02
+
+    build:
+      context: ./src/database/
+      dockerfile: Dockerfile
     env_file:
       - .docker.env
     ports:
       - '$POSTGRES_PORT:$POSTGRES_PORT'
     volumes:
-      - postgres_logs:/var/lib/postgresql
+      # - postgres_logs:/var/lib/postgresql
       - dbdata:/var/lib/postgresql/data
     restart: always
     networks:
@@ -15,7 +18,6 @@ services:
 
   app:
     container_name: 'restapi-app'
-    # image: kuzmak/nodejs2024q3-service-app:v01
     build:
       context: .
       dockerfile: Dockerfile

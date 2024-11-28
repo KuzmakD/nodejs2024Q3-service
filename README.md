@@ -1,15 +1,29 @@
-# Home Library Service
+# Home Library REST API Service
+
+The service is powered by the [Nest.js framework](https://github.com/nestjs/nest), implementing a CRUD RESTful API with a focus on modularity and architectural coherence. The application utilizes [RxJS](https://github.com/ReactiveX/rxjs) to enable reactive programming principles and [TypeORM](https://github.com/typeorm/typeorm) to define and manage database entities and relationships using object-relational mapping (ORM) techniques.
+
+[Swagger](https://github.com/swagger-api/swagger-ui) facilitates comprehensive API documentation, offering a clear and structured overview of available endpoints and associated functionalities.
+
+To streamline the development and deployment process, environment configuration, Docker containers, and orchestration files are included in the repository.
 
 ## Prerequisites
 
+Before installing and running the Home Library REST API service, ensure that the following prerequisites are met:
+
+#### Using Docker
+
+- Docker desktop - [Download page](https://www.docker.com/products/docker-desktop/)
+
+#### Local Machine Environment
+
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
-- Docker desktop - [Download page](https://www.docker.com/products/docker-desktop/)
+- [PostgreSQL](https://www.postgresql.org/download/)
 
 ## Installation process
 
 1. Clone the repository:
-   `git clone https://github.com/KuzmakD/nodejs2024Q3-service.git/tree/part2`
+   `git clone https://github.com/KuzmakD/nodejs2024Q3-service.git/tree/part3`
 2. Install all npm modules `npm install`
 3. Create the .env file using [example](.env.example);
 
@@ -46,7 +60,7 @@ After application running open new terminal and enter:
 To run all tests without authorization
 
 ```
-npm run test
+npm run test:auth
 ```
 
 To run only one of all test suites

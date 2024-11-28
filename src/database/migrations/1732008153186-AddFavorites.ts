@@ -4,7 +4,7 @@ export class AddFavorites1732008153186 implements MigrationInterface {
   name = 'AddFavorites1732008153186';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
+    // await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
     await queryRunner.query(
       `CREATE TABLE "favorites" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "userId" uuid NOT NULL, CONSTRAINT "PK_890818d27523748dd36a4d1bdc8" PRIMARY KEY ("id"))`,
     );

@@ -11,7 +11,7 @@ RUN npm run build
 EXPOSE 4000
 
 ENV NODE_ENV production
-RUN npm install --only=production && npm cache clean --force
+RUN npm install --only=production
 
 FROM node:22-alpine As production
 WORKDIR /app
