@@ -1,0 +1,42 @@
+services:
+  postgres-db:
+    container_name: postgres-db
+
+    build:
+      context: ./src/database/
+      dockerfile: Dockerfile
+    env_file:
+      - .docker.env
+    ports:
+      - '$POSTGRES_PORT:$POSTGRES_PORT'
+    volumes:
+      # - postgres_logs:/var/lib/postgresql
+      - dbdata:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - app-db-network
+
+  app:
+    container_name: 'restapi-app'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .docker.env
+    ports:
+      - '$PORT:$PORT'
+    command: npm run start:docker:dev
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres-db
+    restart: on-failure
+    networks:
+      - app-db-network
+
+networks:
+  app-db-network:
+    driver: bridge
+
+volumes:
+  dbdata:
